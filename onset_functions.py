@@ -49,10 +49,23 @@ def combine_seasons(unimodal, short, long):
     ulong_onset.data[mask] = long.data[mask]
     return us_onset, ulong_onset
 
-def combine_find_seasons(data):
-    unimodal = find_season(data, 'Onset Date for Unimodal Regions')
-    short = find_season(data, 'Onset Date for Short Rains')
-    long = find_season(data, 'Onset Date for Long Rains')
+def combine_find_seasons(data, type = 'Onset'):
+    if type == 'Onset':
+        unimodal = find_season(data, 'Onset Date for Unimodal Regions')
+        short = find_season(data, 'Onset Date for Short Rains')
+        long = find_season(data, 'Onset Date for Long Rains')
     
-    us_onset, ulong_onset = combine_seasons(unimodal, short, long)
+        us_onset, ulong_onset = combine_seasons(unimodal, short, long)
+    if type == 'Cessation':
+        unimodal = find_season(data, 'Cessation Date for Unimodal Regions')
+        short = find_season(data, 'Cessation Date for Short Rains')
+        long = find_season(data, 'Cessation Date for Long Rains')
+    
+        us_onset, ulong_onset = combine_seasons(unimodal, short, long)
+    if type == 'Duration':
+        unimodal = find_season(data, 'Season Length for Unimodal Regions')
+        short = find_season(data, 'Season Length for Short Rains')
+        long = find_season(data, 'Season Length for Long Rains')
+    
+        us_onset, ulong_onset = combine_seasons(unimodal, short, long)
     return us_onset, ulong_onset
