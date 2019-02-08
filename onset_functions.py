@@ -22,21 +22,34 @@ def find_season(data, name):
     return out
 
 #Apply land sea mask to data
-def masking(input_cube, mask):
+def masking(input_cube, mask, small_mask = False):
     dimensions = input_cube.shape
     out = input_cube.copy()
     
-    if len(dimensions) == 3:
-        for i in np.arange(dimensions[1]):
-            for j in np.arange(dimensions[2]):
-                if mask.data[0,0,i,j]<0.5:
-                    out.data[:,i,j] = float('nan')
-    
-    if len(dimensions) == 2:
-        for i in np.arange(dimensions[0]):
-            for j in np.arange(dimensions[1]):
-                if mask.data[0,0,i,j]<0.5:
-                    out.data[i,j] = float('nan')
+    if small_mask == True:
+        if len(dimensions) == 3:
+            for i in np.arange(dimensions[1]):
+                for j in np.arange(dimensions[2]):
+                    if mask.data[i,j]<0.5:
+                        out.data[:,i,j] = float('nan')
+        if len(dimensions) == 2:
+            for i in np.arange(dimensions[0]):
+                for j in np.arange(dimensions[1]):
+                    if mask.data[i,j]<0.5:
+                        out.data[i,j] = float('nan')
+                    
+    elif small_mask == False:
+        if len(dimensions) == 3:
+            for i in np.arange(dimensions[1]):
+                for j in np.arange(dimensions[2]):
+                    if mask.data[0,0,i,j]<0.5:
+                        out.data[:,i,j] = float('nan')
+        
+        if len(dimensions) == 2:
+            for i in np.arange(dimensions[0]):
+                for j in np.arange(dimensions[1]):
+                    if mask.data[0,0,i,j]<0.5:
+                        out.data[i,j] = float('nan')
     
     return out
 
